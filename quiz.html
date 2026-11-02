@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuizMaster Pro - Quiz</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+}
+
+.container {
+    max-width: 750px;
+    margin: 30px auto;
+    padding: 30px;
+    background: white;
+    color: black;
+    border-radius: 12px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+select {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+}
+
+.question {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+}
+
+.question label {
+    display: block;
+    margin: 12px 0;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: black;
+    color: white;
+    border: 2px solid black;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: white;
+    color: black;
+}
+
+#result {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: black;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>QuizMaster Pro</h1>
+<h2>Online Quiz</h2>
+
+<label><b>Select Subject:</b></label>
+
+<select id="subject" onchange="loadQuiz()">
+    <option value="">Choose Subject</option>
+    <option value="Computer Science">Computer Science</option>
+    <option value="English">English</option>
+    <option value="Mathematics">Mathematics</option>
+</select>
+
+<div id="quizArea"></div>
+
+<button id="submitBtn" onclick="submitQuiz()" style="display:none;">
+    Submit Quiz
+</button>
+
+<div id="result"></div>
+
+<a href="dashboard.html">Back to Dashboard</a>
+
+</div>
+
+<script>
+
+const defaultQuestions = {
+
+"Computer Science": [
+{
+q: "What does CPU stand for?",
+options: ["Central Processing Unit", "Computer Personal Unit", "Central Program Unit", "Control Power Unit"],
+answer: 0
+},
+{
+q: "Which device is used to type?",
+options: ["Mouse", "Keyboard", "Monitor", "Printer"],
+answer: 1
+},
+{
+q: "Which is an input device?",
+options: ["Monitor", "Printer", "Keyboard", "Speaker"],
+answer: 2
+},
+{
+q: "What does HTML stand for?",
+options: ["Hyper Text Markup Language", "High Text Machine Language", "Hyper Tool Markup Language", "Home Text Markup Language"],
+answer: 0
+},
+{
+q: "Which one is an operating system?",
+options: ["Google", "Windows", "HTML", "Keyboard"],
+answer: 1
+}
+],
+
+"English": [
+{
+q: "What is the plural of Child?",
+options: ["Childs", "Children", "Childes", "Childrens"],
+answer: 1
+},
+{
+q: "What is the opposite of Happy?",
+options: ["Glad", "Sad", "Joyful", "Kind"],
+answer: 1
+},
+{
+q: "Which is a noun?",
+options: ["Beautiful", "Quickly", "Book", "Run"],
+answer: 2
+},
+{
+q: "What is the past tense of Go?",
+options: ["Goed", "Going", "Gone", "Went"],
+answer: 3
+},
+{
+q: "Which word is a verb?",
+options: ["Write", "Table", "Blue", "Beautiful"],
+answer: 0
+}
+],
+
+"Mathematics": [
+{
+q: "What is 5 + 5?",
+options: ["8", "10", "12", "15"],
+answer: 1
+},
+{
+q: "What is 10 × 2?",
+options: ["10", "15", "20", "25"],
+answer: 2
+},
+{
+q: "What is 20 ÷ 4?",
+options: ["2", "4", "5", "10"],
+answer: 2
+},
+{
+q: "What is 9 × 3?",
+options: ["18", "27", "21", "30"],
+answer: 1
+},
+{
+q: "What is 100 - 25?",
+options: ["65", "70", "75", "80"],
+answer: 2
+}
+]
+
+};
+
+function loadQuiz() {
+
+    let subject = document.getElementById("subject").value;
+    let area = document.getElementById("quizArea");
+    let submitBtn = document.getElementById("submitBtn");
+
+    document.getElementById("result").textContent = "";
+
+    if (!subject) {
+        area.innerHTML = "";
+        submitBtn.style.display = "none";
+        return;
+    }
+
+    let adminQuestions =
+        JSON.parse(localStorage.getItem("customQuestions")) || [];
+
+    let extraQuestions = adminQuestions
+        .filter(item => item.subject === subject)
+        .map(item => ({
+            q: item.question,
+            options: item.options,
+            answer: item.answer
+        }));
+
+    let allQuestions = [
+        ...defaultQuestions[subject],
+        ...extraQuestions
+    ];
+
+    area.innerHTML = "";
+
+    allQuestions.forEach((item, index) => {
+
+        let div = document.createElement("div");
+        div.className = "question";
+
+        let heading = document.createElement("h3");
+        heading.textContent = (index + 1) + ". " + item.q;
+        div.appendChild(heading);
+
+        item.options.forEach((option, i) => {
+
+            let label = document.createElement("label");
+            let radio = document.createElement("input");
+
+            radio.type = "radio";
+            radio.name = "q" + index;
+            radio.value = i;
+
+            label.appendChild(radio);
+            label.appendChild(
+                document.createTextNode(" " + option)
+            );
+
+            div.appendChild(label);
+        });
+
+        area.appendChild(div);
+    });
+
+    window.currentQuestions = allQuestions;
+    submitBtn.style.display = "block";
+    submitBtn.disabled = false;
+}
+
+function submitQuiz() {
+
+    let subject = document.getElementById("subject").value;
+    let allQuestions = window.currentQuestions;
+
+    if (!subject || !allQuestions || allQuestions.length === 0) {
+        alert("Please select a subject!");
+        return;
+    }
+
+    let score = 0;
+    let total = allQuestions.length;
+
+    allQuestions.forEach((item, index) => {
+
+        let selected = document.querySelector(
+            'input[name="q' + index + '"]:checked'
+        );
+
+        if (selected && Number(selected.value) === item.answer) {
+            score++;
+        }
+    });
+
+    let percentage = (score / total) * 100;
+
+    let results =
+        JSON.parse(localStorage.getItem("quizResults")) || [];
+
+    results.push({
+        subject: subject,
+        score: score,
+        total: total,
+        percentage: percentage
+    });
+
+    localStorage.setItem("quizResults", JSON.stringify(results));
+
+    document.getElementById("result").innerHTML =
+        "Your Score: " + score + "/" + total +
+        "<br>Percentage: " + percentage.toFixed(2) + "%";
+
+    document.getElementById("submitBtn").disabled = true;
+}
+
+</script>
+
+</body>
+</html>

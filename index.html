@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMaster Pro</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f5ff;
+            color: #20234a;
+        }
+
+        header {
+            background: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #5545d9;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        nav a {
+            text-decoration: none;
+            margin-left: 20px;
+            color: #333;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero h1 {
+            font-size: 45px;
+            margin-bottom: 20px;
+        }
+
+        .hero span {
+            color: #5545d9;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background: #5545d9;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3829a9;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            padding: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            width: 250px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px #ddd;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">QuizMaster Pro</div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Welcome to <span>QuizMaster Pro</span></h1>
+
+    <p>Learn, Practice and Test Your Knowledge Online!</p>
+
+    <button onclick="location.href='register.html'">
+        Get Started
+    </button>
+</section>
+
+<section class="features">
+
+    <div class="card">
+        <h2>📝 Online Quizzes</h2>
+        <p>Attempt quizzes online.</p>
+    </div>
+
+    <div class="card">
+        <h2>🎓 Student Accounts</h2>
+        <p>Create your own account.</p>
+    </div>
+
+    <div class="card">
+        <h2>🏆 Instant Results</h2>
+        <p>Check your quiz results.</p>
+    </div>
+
+</section>
+
+<footer>
+    <p>© 2026 QuizMaster Pro. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
+<script src="script.js"></script><!DOCTYPE html>
+<html>
+<head>
+    <title>Register - QuizMaster Pro</title>
+</head>
+<body>
+    <h1>Welcome to QuizMaster Pro</h1>
+    <h2>Create Your Account</h2>
+
+    <form>
+        <input type="text" placeholder="Enter Your Name"><br><br>
+        <input type="email" placeholder="Enter Your Email"><br><br>
+        <input type="password" placeholder="Enter Password"><br><br>
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>

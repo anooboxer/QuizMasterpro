@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Results - QuizMaster Pro</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            background: white;
+            color: black;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 13px;
+            text-align: center;
+        }
+
+        th {
+            background: black;
+            color: white;
+        }
+
+        .summary {
+            background: black;
+            color: white;
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .btn {
+            display: block;
+            background: black;
+            color: white;
+            text-decoration: none;
+            padding: 13px;
+            margin: 15px auto;
+            max-width: 250px;
+            text-align: center;
+            border: 2px solid black;
+            border-radius: 7px;
+        }
+
+        .btn:hover {
+            background: white;
+            color: black;
+        }
+
+        #noResults {
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>QuizMaster Pro</h1>
+    <h2>My Quiz Results</h2>
+
+    <div id="noResults" style="display:none;">
+        <p>No quiz results found. Please attempt a quiz first.</p>
+    </div>
+
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Obtained Marks</th>
+                <th>Total Marks</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+
+        <tbody id="resultsBody"></tbody>
+    </table>
+
+    <div class="summary" id="summary">
+        <h2>Overall Result</h2>
+        <p id="totalMarks"></p>
+        <p id="overallPercentage"></p>
+    </div>
+
+    <a href="dashboard.html" class="btn">Back to Dashboard</a>
+
+    <a href="quiz.html" class="btn">Start New Quiz</a>
+
+</div>
+
+<script>
+
+    let results = JSON.parse(localStorage.getItem("quizResults")) || [];
+
+    let body = document.getElementById("resultsBody");
+
+    if (results.length === 0) {
+
+        document.getElementById("resultsTable").style.display = "none";
+        document.getElementById("summary").style.display = "none";
+        document.getElementById("noResults").style.display = "block";
+
+    } else {
+
+        let obtained = 0;
+        let total = 0;
+
+        results.forEach(function(result) {
+
+            let percentage = (result.score / result.total) * 100;
+
+            obtained += result.score;
+            total += result.total;
+
+            let row = `
+                <tr>
+                    <td>${result.subject}</td>
+                    <td>${result.score}</td>
+                    <td>${result.total}</td>
+                    <td>${percentage.toFixed(2)}%</td>
+                </tr>
+            `;
+
+            body.innerHTML += row;
+
+        });
+
+        let overall = (obtained / total) * 100;
+
+        document.getElementById("totalMarks").textContent =
+            "Total Marks: " + obtained + " / " + total;
+
+        document.getElementById("overallPercentage").textContent =
+            "Overall Percentage: " + overall.toFixed(2) + "%";
+
+    }
+
+</script>
+
+</body>
+</html>

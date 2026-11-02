@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMaster Pro</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+        }
+
+        header {
+            background: #000;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 2px solid white;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .welcome {
+            background: white;
+            color: black;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: white;
+            color: black;
+            padding: 25px;
+            border-radius: 12px;
+            width: 220px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: black;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border: 2px solid black;
+            border-radius: 7px;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: white;
+            color: black;
+        }
+
+        .subjects {
+            background: white;
+            color: black;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .subjects p {
+            padding: 12px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .logout {
+            background: white;
+            color: black;
+            padding: 12px 30px;
+            border: 2px solid white;
+            border-radius: 7px;
+            margin-top: 25px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: black;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>QuizMaster Pro</h1>
+    <p>Online Quiz and Exam System</p>
+</header>
+
+<div class="container">
+
+    <div class="welcome">
+        <h2>Welcome, <span id="studentName">Student</span>!</h2>
+        <p>Ready to test your knowledge?</p>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h2>Start Quiz</h2>
+            <p>Test your knowledge.</p>
+            <a href="quiz.html" class="btn">Start Now</a>
+        </div>
+
+        <div class="card">
+            <h2>My Results</h2>
+            <p>Check your quiz results.</p>
+            <a href="results.html" class="btn">View Results</a>
+        </div>
+
+    </div>
+
+    <div class="subjects">
+        <h2>Available Subjects</h2>
+        <p>Computer Science</p>
+        <p>English</p>
+        <p>Mathematics</p>
+    </div>
+
+    <button class="logout" onclick="logout()">Logout</button>
+
+</div>
+
+<footer>
+    <p>© 2026 QuizMaster Pro | All Rights Reserved</p>
+</footer>
+
+<script>
+    let user = JSON.parse(localStorage.getItem("quizUser"));
+
+    if (user && user.name) {
+        document.getElementById("studentName").textContent = user.name;
+    }
+
+    function logout() {
+        localStorage.removeItem("loggedIn");
+        window.location.href = "login.html";
+    }
+</script>
+
+</body>
+</html>
